@@ -26,7 +26,7 @@ def _get_parser() -> ArgumentParser:
     )
     parser.add_argument(
         "--timeout",
-        default=120,
+        default=600,
         type=int,
         help="Timeout for wandb sync. If <=0, no timeout.",
     )

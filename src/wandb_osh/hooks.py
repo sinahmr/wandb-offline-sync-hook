@@ -27,7 +27,7 @@ class TriggerWandbSyncHook:
             self.communication_dir,
         )
 
-    def __call__(self, logdir: str | PathLike | None = None):
+    def __call__(self, logdir: str | PathLike | None = None, sbatch: str | None = None):
         """Trigger synchronization on the head nodes
 
         Args:
@@ -52,4 +52,14 @@ class TriggerWandbSyncHook:
             )
         command_file.touch(exist_ok=True)
         command_file.write_text(trial_dir.resolve().as_posix())
-        logger.debug("Wrote command file %s", command_file)
+        logger.debug(f"Wrote to command file {command_file}: {trial_dir.resolve().as_posix()}")
+
+        # Write sbatch command
+        if sbatch:
+            sbatch_fname = hash_id(str(trial_dir)) + ".sbatch"
+            command_file = self.communication_dir / sbatch_fname
+            if command_file.is_file():
+                logger.warning(f"sbatch command {command_file} file already exists")
+            command_file.touch(exist_ok=True)
+            command_file.write_text(sbatch)
+            logger.debug(f"Wrote to sbatch file {command_file}: {str(sbatch)[:30]}...")

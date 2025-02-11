@@ -18,7 +18,8 @@ def get_logger():
         # logger ==> we don't need to do anything
         return _log
 
-    _log.setLevel(LOG_DEFAULT_LEVEL)
+    # _log.setLevel(LOG_DEFAULT_LEVEL)
+    _log.setLevel(logging.DEBUG)
 
     sh = colorlog.StreamHandler()
     log_colors = {
@@ -31,7 +32,7 @@ def get_logger():
     formatter = colorlog.ColoredFormatter(
         "%(log_color)s%(asctime)s %(levelname)s: %(message)s",
         log_colors=log_colors,
-        datefmt="%H:%M:%S",
+        datefmt="%Y-%m-%d %H:%M:%S",
     )
     sh.setFormatter(formatter)
     # Controlled by overall logger level
